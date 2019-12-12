@@ -79,6 +79,15 @@ public class HistogramEx {
         // with s.
         return (step / 2) * s;
     }
+
+    public double getRightDerivateive(double argX, double delta){
+        return (squareFunction(argX+delta)-squareFunction(argX))/delta;
+    }
+
+    public double getLeftDerivative(double argX, double delta){
+        return (squareFunction(argX)-squareFunction(argX-delta))/delta;
+    }
+
     public static void main(String[] args) throws IOException {
 
         double x0 = 0;
