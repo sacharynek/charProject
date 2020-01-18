@@ -11,7 +11,7 @@ public class HistogramEx {
     public static double squareFunction(double x) {
         // Declaring the function f(x) = 1/(1+x*x)
 //        return 1 / (1 + x * x);
-        return x*x*x;
+        return x*x;
     }
 
     static double getStep(double beginValue, double endValue, int numberOfSteps){
@@ -80,13 +80,45 @@ public class HistogramEx {
         return (step / 2) * s;
     }
 
-    public double getRightDerivateive(double argX, double delta){
+    public static double getRightDerivateive(double argX, double delta){
         return (squareFunction(argX+delta)-squareFunction(argX))/delta;
     }
 
-    public double getLeftDerivative(double argX, double delta){
+    public static double getLeftDerivative(double argX, double delta){
         return (squareFunction(argX)-squareFunction(argX-delta))/delta;
     }
+
+    public static double simpsons(double ll, double ul, int n)
+    {
+        // Calculating the value of h
+        double h = (ul - ll) / n;
+
+        // Array for storing value of x
+        // and f(x)
+        double[] x = new double[n+1];
+        double[] fx= new double[n+1];
+
+        // Calculating values of x and f(x)
+        for (int i = 0; i <= n; i++) {
+            x[i] = ll + i * h;
+            fx[i] = squareFunction(x[i]);
+        }
+
+        // Calculating result
+        double res = 0;
+        for (int i = 0; i <= n; i++) {
+            if (i == 0 || i == n)
+                res += fx[i];
+            else if (i % 2 != 0)
+                res += 4 * fx[i];
+            else
+                res += 2 * fx[i];
+        }
+
+        res = res * (h / 3);
+        return res;
+    }
+
 
     public static void main(String[] args) throws IOException {
 
@@ -99,10 +131,18 @@ public class HistogramEx {
         System.out.format("Value of leftpoint integral is %6.4f\n", leftPointMethod(table,step));
         System.out.format("Value of rightpoint integral is %6.4f\n", rightPointMethod(table, step));
         System.out.format("Value of average integral is %6.4f\n", (rightPointMethod(table, step)+leftPointMethod(table,step))/2);
-        System.out.format("Value of midpoint integral is %6.4f\n", midPointMethod(table, step));
+       // System.out.format("Value of midpoint integral is %6.4f\n", midPointMethod(table, step));
 
         System.out.format("Value of trapeze integral is %6.4f\n", trapezoidal(x0, xn, n));
 
+        System.out.format("Value of simpsons integral is %6.4f\n", simpsons(x0, xn, n));
+
+
+        double delta = 0.00001;
+        double point = 1;
+
+        System.out.format("value of left derivative %6.10f\n", getLeftDerivative(point, delta));
+        System.out.format("value of left derivative %6.10f\n", getRightDerivateive(point, delta));
 
 
 
